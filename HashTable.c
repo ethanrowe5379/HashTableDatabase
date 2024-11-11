@@ -41,7 +41,18 @@ void del_ht(Hash_Table* ht){
 }
 
 
-/*Hash Function*/
-
+/*Hash Function
+    char* s - the string of text to be converted into a hash
+    int p - a prime number thats greater than the ASCII alphabet size (128)
+    int m - size of hash table*/
+static int ht_hash(const char* s, const int p, const int m){
+    long hash = 0;
+    const int len_s = strlen(s);  
+    for(int i = 0;i<len_s;i++){
+        hash += (long)pow(p, len_s-(i+1) * s[i]);
+        hash = hash % m;
+    }  
+    return (int)hash;
+}
 
 /*Add Item to Hash Table*/
