@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include "HashTable.h"
 
+#define PRIME_1 97081
+#define PRIME_2 78893
+
 /*Create Hash Table*/
 Hash_Table* ht_new(int s){
     Hash_Table* ht = malloc(sizeof(Hash_Table));
@@ -53,6 +56,13 @@ static int ht_hash(const char* s, const int p, const int m){
         hash = hash % m;
     }  
     return (int)hash;
+}
+
+/*Double Hash For Collisions*/
+static int ht_get_hash(const char* s, const int num_buckets, const int attempts){
+    const int hash_a = ht_hash(s, PRIME_1, num_buckets);
+    const int hash_b = ht_hash(s, PRIME_2, num_buckets);
+    return (hash_a + (attempts * (hash_b + 1))) % num_buckets;
 }
 
 /*Add Item to Hash Table*/
