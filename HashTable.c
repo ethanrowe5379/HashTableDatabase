@@ -21,6 +21,26 @@ static ht_item* ht_new_item(const char* k, const char* v){
     return i;
 } 
 
+/* Delete ht_item*/
+void del_ht_item(ht_item* i){
+    free(i->key);
+    free(i->value);
+    free(i);
+}
+
+/* Delete Hash Table*/
+void del_ht(Hash_Table* ht){
+    for(int i = 0; i<ht->size; i++){
+        ht_item* item = ht->items[i];
+        if(item != NULL){
+            del_ht_item(item);
+        }
+    }
+    free(ht->items);
+    free(ht);
+}
+
+
 /*Hash Function*/
 
 
