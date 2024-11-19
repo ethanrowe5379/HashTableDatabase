@@ -4,6 +4,8 @@
 #define PRIME_1 97081
 #define PRIME_2 78893
 
+static ht_item DELETED_HT_ITEM = {NULL, NULL};
+
 /*Create Hash Table*/
 Hash_Table* ht_new(int s){
     Hash_Table* ht = malloc(sizeof(Hash_Table));
@@ -100,3 +102,21 @@ char* ht_search(Hash_Table* ht, const char* key){
     return NULL;
 }
 
+/*Delete item from Hash Table*/
+void delete_item(Hash_Table* ht, char const* key){
+    int index = ht_get_hash(key, ht->size, 0);
+    ht_item* item = ht->items[index];
+    int i = 1;
+    while(item != NULL){
+        if(item != &DELETED_HT_ITEM){
+            if(strcmp(item->key, key) == 0){
+                ht_del_item(item);
+                ht->items[index] = &DELETED_HT_ITEM;
+            }
+        }
+        index = ht_get_hash(key, ht->size, i);
+        item = ht->items[index];
+        i++;
+    }
+    ht->count--;
+}
