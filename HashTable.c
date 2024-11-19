@@ -76,9 +76,13 @@ void ht_insert(Hash_Table* ht, const char* key, const char* value){
     
     int i = 1;
     while(cur_item != NULL){
-        index = ht_get_hash(item->key, ht->size, i);
-        cur_item = ht->items[index];
-        i++;  
+        if(cur_item != &DELETED_HT_ITEM){
+            if(strcmp(cur_item->key, key) == 0){
+                index = ht_get_hash(item->key, ht->size, i);
+                cur_item = ht->items[index];
+                i++;  
+            }
+        }
     }
     ht->items[index] = item;
     ht->count++;
